@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:check_bike/main.dart';
 import 'package:check_bike/widget/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -183,19 +184,19 @@ class _TimerPageState extends State<TimerPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: ratio.height * 20),
             _isRunning
                 ? Text(
                     "운동 기록이\n시작되었습니다!",
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: ratio.height * 30,
                         fontWeight: FontWeight.bold),
                   )
                 : Text(
                     "목표를 설정하고\n운동을 시작해보세요!",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: ratio.height * 30, fontWeight: FontWeight.bold),
                   ),
-            SizedBox(height: 20),
+            SizedBox(height: ratio.height * 20),
             DropdownButton<int>(
               value: _goalSet ? _goalMinutes : null,
               items: [10, 20, 30, 40, 50, 60].map((int value) {
@@ -223,8 +224,8 @@ class _TimerPageState extends State<TimerPage> {
                   children: [
                     _isLoading
                         ? Container(
-                            width: 45,
-                            height: 45,
+                            width: ratio.width * 45,
+                            height: ratio.height * 45,
                             child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                     CheckBikeColor.mainBlue), strokeWidth: 5),
@@ -232,14 +233,14 @@ class _TimerPageState extends State<TimerPage> {
                         : Text(
                             _formatDuration(_elapsedTime),
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: ratio.height * 50,
                                 color: CheckBikeColor.mainBlue,
                                 fontWeight: FontWeight.bold),
                           ),
-                    SizedBox(height: 30),
+                    SizedBox(height: ratio.height * 30),
                     Container(
-                      width: 250,
-                      height: 250,
+                      width: ratio.width * 250,
+                      height: ratio.height * 250,
                       child: CircularProgressIndicator(
                         value: _progress,
                         backgroundColor: Colors.grey[300],
@@ -247,7 +248,7 @@ class _TimerPageState extends State<TimerPage> {
                         strokeWidth: 30,
                       ),
                     ),
-                    SizedBox(height: 60),
+                    SizedBox(height: ratio.height * 60),
                     CustomButton(
                       width: 150,
                       height: 48,

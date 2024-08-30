@@ -1,4 +1,5 @@
 import 'package:check_bike/config/color.dart';
+import 'package:check_bike/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -41,7 +42,7 @@ class _StatsScreenState extends State<StatsScreen> {
               },
             ),
           ),
-          SizedBox(width: 10),
+          SizedBox(width: ratio.width * 10),
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -101,35 +102,35 @@ class _StatsScreenState extends State<StatsScreen> {
                         children: [
                           Text("운동 기록 ${index + 1}",
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: ratio.height * 18,
                                 fontWeight: FontWeight.bold,
                                 color: CheckBikeColor.grey3,
                               )),
                           Text("시작 시간: $startTime",
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: ratio.height * 15,
                                 color: CheckBikeColor.grey3,
                               )),
                           Text("종료 시간: $endTime",
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: ratio.height * 15,
                                 color: CheckBikeColor.grey3,
                               )),
                           Divider(),
                           Text("운동 시간: $duration",
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: ratio.height * 18,
                                 fontWeight: FontWeight.bold,
                                 color: CheckBikeColor.mainBlue,
                               )),
-                          SizedBox(height: 10),
+                          SizedBox(height: ratio.height * 10),
                           Row(
                             children: [
                               Icon(
                                 isGoalAchieved ? Icons.check_circle : Icons.cancel,
                                 color: isGoalAchieved ? Colors.green : Colors.red,
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: ratio.width * 10),
                               Text(
                                 isGoalAchieved ? "달성 성공" : "달성 실패",
                                 style: TextStyle(

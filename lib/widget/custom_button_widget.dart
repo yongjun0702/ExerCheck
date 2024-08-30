@@ -4,7 +4,7 @@ import 'package:check_bike/main.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final VoidCallback? func; // Change to VoidCallback? to support null
+  final VoidCallback? func;
   final Color textColor;
   final Color backgroundColor;
   final int buttonCount;
@@ -34,7 +34,7 @@ class CustomButton extends StatelessWidget {
         height: ratio.height * height,
         decoration: BoxDecoration(
           color: isButtonDisabled
-              ? Colors.grey.withOpacity(0.6) // Dimmed color for disabled state
+              ? Colors.grey.withOpacity(0.6)
               : backgroundColor,
           borderRadius: BorderRadius.circular(20),
         ),
@@ -44,7 +44,7 @@ class CustomButton extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               color: isButtonDisabled
-                  ? Colors.grey[300] // Light color for disabled text
+                  ? Colors.grey[300]
                   : textColor,
               fontWeight: FontWeight.bold,
             ),
@@ -59,7 +59,7 @@ class CustomButton extends StatelessWidget {
               height: ratio.height * height,
               decoration: BoxDecoration(
                 color: isButtonDisabled
-                    ? Colors.grey.withOpacity(0.6) // Dimmed color for disabled state
+                    ? Colors.grey.withOpacity(0.6)
                     : CheckBikeColor.mainBlue,
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -69,7 +69,7 @@ class CustomButton extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     color: isButtonDisabled
-                        ? Colors.grey[300] // Light color for disabled text
+                        ? Colors.grey[300]
                         : textColor,
                     fontWeight: FontWeight.bold,
                   ),
@@ -84,7 +84,7 @@ class CustomButton extends StatelessWidget {
               height: ratio.height * height,
               decoration: BoxDecoration(
                 color: isButtonDisabled
-                    ? Colors.grey.withOpacity(0.6) // Dimmed color for disabled state
+                    ? Colors.grey.withOpacity(0.6)
                     : CheckBikeColor.subBlue2,
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -94,7 +94,7 @@ class CustomButton extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     color: isButtonDisabled
-                        ? Colors.grey[300] // Light color for disabled text
+                        ? Colors.grey[300]
                         : CheckBikeColor.mainBlue,
                     fontWeight: FontWeight.bold,
                   ),

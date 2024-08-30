@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:check_bike/config/color.dart';
+import 'package:check_bike/main.dart';
 import 'package:check_bike/screen/stats_screen.dart';
 import 'package:check_bike/screen/timer_screen.dart';
 import 'package:check_bike/widget/card_widget.dart';
@@ -48,13 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
     int count = 0;
     int achievedGoals = 0;
     Duration totalDuration = Duration.zero;
-    Set<DateTime> exerciseDates = {};  // Set 사용하여 중복 제거
+    Set<DateTime> exerciseDates = {};
     bool isOngoing = false;
 
     for (var doc in snapshot.docs) {
       var data = doc.data() as Map<String, dynamic>;
       String durationString =
-          data['duration'] ?? '0초'; // duration이 null인 경우 '0초'로 처리
+          data['duration'] ?? '0초';
       Duration duration = _parseDuration(durationString);
 
       count++;
@@ -66,18 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
       try {
         startTime = DateFormat('yyyy년 M월 d일 H시 m분').parse(startTimeString);
       } catch (e) {
-        startTime = DateTime.now(); // 기본값 설정 또는 로그 기록
-        print('Error parsing date: $startTimeString'); // 디버깅을 위한 로그
+        startTime = DateTime.now();
+        print('Error parsing date: $startTimeString');
       }
 
-      // 중복 제거를 위해 날짜만 저장
       exerciseDates.add(DateTime(startTime.year, startTime.month, startTime.day));
 
       if (data['end_time'] == null) {
         isOngoing = true;
       }
 
-      // 목표 달성 횟수 계산
       if (data['is_goal_achieved'] == true) {
         achievedGoals++;
       }
@@ -85,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     List<DateTime> sortedDates = exerciseDates.toList()..sort();
 
-    // 연속 운동일 계산
     int consecutiveDays = 1;
 
     for (int i = sortedDates.length - 2; i >= 0; i--) {
@@ -104,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _totalDuration = totalDuration;
       _isExerciseOngoing = isOngoing;
       _achievedGoalsCount = achievedGoals;
-      _consecutiveDays = consecutiveDays;  // 연속 운동일 수 갱신
+      _consecutiveDays = consecutiveDays;
     });
   }
 
@@ -125,7 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // 타이머 페이지로 이동하는 메서드
   void _navigateToTimerPage() {
     Navigator.push(
       context,
@@ -148,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "ExerCheck",
             style: TextStyle(
               color: CheckBikeColor.darkgrey,
-              fontSize: 25,
+              fontSize: 25 * ratio.height,
               fontWeight: FontWeight.bold,
               fontStyle: FontStyle.italic,
             ),
@@ -183,16 +180,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 35),
+                        SizedBox(height: ratio.height * 35),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              height: 100,
+                              height: ratio.height * 100,
                               child: DefaultTextStyle(
                                 style: TextStyle(
                                   fontFamily: "Pretendard",
-                                  fontSize: 40.0,
+                                  fontSize: ratio.height * 35,
                                   color: CheckBikeColor.mainBlue,
                                   fontWeight: FontWeight.bold
                                 ),
@@ -203,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ColorizeAnimatedText(
                                       '오늘도 운동을\n시작해볼까요?',
                                       textStyle: TextStyle(
-                                          fontSize: 40
+                                          fontSize: ratio.height * 35
                                       ),
                                       colors: [CheckBikeColor.mainBlue, CheckBikeColor.subBlue2, CheckBikeColor.mainBlue],
                                       speed: Duration(milliseconds: 200),
@@ -216,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 45),
+                        SizedBox(height: ratio.height * 45),
                         GestureDetector(
                           onTap: () {
                             _navigateToTimerPage();
@@ -243,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Text(
                                     _isExerciseOngoing ? "운동 종료" : "운동 시작",
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: ratio.height * 20,
                                       fontWeight: FontWeight.bold,
                                       color: CheckBikeColor.mainBlue,
                                     ),
@@ -255,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 70),
+                        SizedBox(height: ratio.height * 70),
                       ],
                     ),
                   ),
@@ -268,12 +265,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         "내 운동 현황은?",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: ratio.height * 20,
                           fontWeight: FontWeight.bold,
                           color: CheckBikeColor.darkgrey,
                         ),
                       ),
-                      SizedBox(height: 17),
+                      SizedBox(height: ratio.height * 10),
                       Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -305,42 +302,42 @@ class _HomeScreenState extends State<HomeScreen> {
                                     TextSpan(
                                         text: ' 운동 횟수\n',
                                         style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: ratio.height * 16,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.grey3)),
                                     WidgetSpan(
                                       child: SizedBox(
-                                        height: 40,
+                                        height: ratio.height * 40,
                                       ),
                                     ),
                                     TextSpan(
                                         text: '운동을 총',
                                         style: TextStyle(
-                                            fontSize: 23,
+                                            fontSize: ratio.height * 23,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.grey3)),
                                     TextSpan(
                                         text: ' ${_exerciseCount}번',
                                         style: TextStyle(
-                                            fontSize: 23,
+                                            fontSize: ratio.height * 23,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.mainBlue)),
                                     TextSpan(
                                         text: '\n목표를',
                                         style: TextStyle(
-                                            fontSize: 23,
+                                            fontSize: ratio.height * 23,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.grey3)),
                                     TextSpan(
                                         text: ' ${_achievedGoalsCount}번',
                                         style: TextStyle(
-                                            fontSize: 23,
+                                            fontSize: ratio.height * 23,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.mainBlue)),
                                     TextSpan(
                                         text: ' 달성했어요\n',
                                         style: TextStyle(
-                                            fontSize: 23,
+                                            fontSize: ratio.height * 23,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.grey3)),
                                   ],
@@ -350,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ? Text(
                                       '현재 운동이 진행 중입니다!',
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: ratio.height * 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red,
                                       ),
@@ -358,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : Text(
                                       '운동을 아직 시작하지 않았어요!',
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: ratio.height * 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.green,
                                       ),
@@ -367,19 +364,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: ratio.height * 15),
                       BuildCard(
                         title: '총 운동 시간',
                         value: _formatDuration(_totalDuration),
                         content: '동안 했어요',
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: ratio.height * 15),
                       BuildCard(
                         title: '연속 일수',
                         value: '$_consecutiveDays일',
                         content: '연속 운동중이에요',
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: ratio.height * 15),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -411,7 +408,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text(
                                   "기록 자세히 보기",
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: ratio.height * 20,
                                     fontWeight: FontWeight.bold,
                                     color: CheckBikeColor.mainBlue,
                                   ),
@@ -423,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20)
+                      SizedBox(height: ratio.height * 20)
                     ],
                   ),
                 ),
@@ -435,7 +432,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Duration을 문자열로 포맷하는 메서드
   String _formatDuration(Duration duration) {
     final hours = duration.inHours;
     final minutes = duration.inMinutes.remainder(60);

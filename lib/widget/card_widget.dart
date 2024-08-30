@@ -1,4 +1,5 @@
 import 'package:check_bike/config/color.dart';
+import 'package:check_bike/main.dart';
 import 'package:flutter/material.dart';
 
 class BuildCard extends StatelessWidget {
@@ -43,25 +44,25 @@ class BuildCard extends StatelessWidget {
                   TextSpan(
                       text: ' $title\n',
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: ratio.height * 16,
                           fontWeight: FontWeight.bold,
                           color: CheckBikeColor.grey3)),
                   WidgetSpan(
                     child: SizedBox(
-                      height: 40,
+                      height: ratio.height * 40,
                     ),
                   ),
                   TextSpan(
                       text: value,
                       style: TextStyle(
-                          fontSize: 23,
+                          fontSize: ratio.height * 23,
                           fontWeight: FontWeight.bold,
                           color: CheckBikeColor.mainBlue)),
                   if (content != null)
                     TextSpan(
                         text: ' $content',
                         style: TextStyle(
-                            fontSize: 23,
+                            fontSize: ratio.height * 23,
                             fontWeight: FontWeight.bold,
                             color: CheckBikeColor.grey3)),
                 ],
