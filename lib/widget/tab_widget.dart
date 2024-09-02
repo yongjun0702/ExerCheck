@@ -1,4 +1,5 @@
 import 'package:check_bike/config/color.dart';
+import 'package:check_bike/screen/calendar_screen.dart';
 import 'package:check_bike/screen/home_screen.dart';
 import 'package:check_bike/screen/stats_screen.dart';
 import 'package:check_bike/screen/timer_screen.dart';
@@ -44,7 +45,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
         controller: controller,
         children: [
           HomeScreen(),
-          StatsScreen()
+          CalendarScreen()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:check_bike/config/color.dart';
 import 'package:check_bike/main.dart';
+import 'package:check_bike/screen/calendar_screen.dart';
 import 'package:check_bike/screen/stats_screen.dart';
 import 'package:check_bike/screen/timer_screen.dart';
 import 'package:check_bike/widget/card_widget.dart';
@@ -54,8 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     for (var doc in snapshot.docs) {
       var data = doc.data() as Map<String, dynamic>;
-      String durationString =
-          data['duration'] ?? '0초';
+      String durationString = data['duration'] ?? '0초';
       Duration duration = _parseDuration(durationString);
 
       count++;
@@ -71,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
         print('Error parsing date: $startTimeString');
       }
 
-      exerciseDates.add(DateTime(startTime.year, startTime.month, startTime.day));
+      exerciseDates
+          .add(DateTime(startTime.year, startTime.month, startTime.day));
 
       if (data['end_time'] == null) {
         isOngoing = true;
@@ -96,14 +97,15 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       }
     }
-
-    setState(() {
-      _exerciseCount = count;
-      _totalDuration = totalDuration;
-      _isExerciseOngoing = isOngoing;
-      _achievedGoalsCount = achievedGoals;
-      _consecutiveDays = consecutiveDays;
-    });
+    if (mounted) {
+      setState(() {
+        _exerciseCount = count;
+        _totalDuration = totalDuration;
+        _isExerciseOngoing = isOngoing;
+        _achievedGoalsCount = achievedGoals;
+        _consecutiveDays = consecutiveDays;
+      });
+    }
   }
 
   // 문자열을 Duration으로 변환하는 메서드
@@ -188,11 +190,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: ratio.height * 100,
                               child: DefaultTextStyle(
                                 style: TextStyle(
-                                  fontFamily: "Pretendard",
-                                  fontSize: ratio.height * 35,
-                                  color: CheckBikeColor.mainBlue,
-                                  fontWeight: FontWeight.bold
-                                ),
+                                    fontFamily: "Pretendard",
+                                    fontSize: ratio.height * 35,
+                                    color: CheckBikeColor.mainBlue,
+                                    fontWeight: FontWeight.bold),
                                 child: AnimatedTextKit(
                                   repeatForever: true,
                                   pause: Duration(milliseconds: 500),
@@ -200,14 +201,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ColorizeAnimatedText(
                                       '오늘도 운동을\n시작해볼까요?',
                                       textStyle: TextStyle(
-                                          fontSize: ratio.height * 35
-                                      ),
-                                      colors: [CheckBikeColor.mainBlue, CheckBikeColor.subBlue2, CheckBikeColor.mainBlue],
+                                          fontSize: ratio.height * 35),
+                                      colors: [
+                                        CheckBikeColor.mainBlue,
+                                        CheckBikeColor.subBlue2,
+                                        CheckBikeColor.mainBlue
+                                      ],
                                       speed: Duration(milliseconds: 200),
                                     ),
                                   ],
-                                  onTap: () {
-                                  },
+                                  onTap: () {},
                                 ),
                               ),
                             ),
@@ -313,31 +316,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                     TextSpan(
                                         text: '운동을 총',
                                         style: TextStyle(
-                                            fontSize: ratio.height * 23,
+                                            fontSize: ratio.height * 20,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.grey3)),
                                     TextSpan(
                                         text: ' ${_exerciseCount}번',
                                         style: TextStyle(
-                                            fontSize: ratio.height * 23,
+                                            fontSize: ratio.height * 20,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.mainBlue)),
                                     TextSpan(
                                         text: '\n목표를',
                                         style: TextStyle(
-                                            fontSize: ratio.height * 23,
+                                            fontSize: ratio.height * 20,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.grey3)),
                                     TextSpan(
                                         text: ' ${_achievedGoalsCount}번',
                                         style: TextStyle(
-                                            fontSize: ratio.height * 23,
+                                            fontSize: ratio.height * 20,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.mainBlue)),
                                     TextSpan(
                                         text: ' 달성했어요\n',
                                         style: TextStyle(
-                                            fontSize: ratio.height * 23,
+                                            fontSize: ratio.height * 20,
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.grey3)),
                                   ],

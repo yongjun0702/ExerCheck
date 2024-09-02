@@ -2,6 +2,7 @@ import 'package:check_bike/screen/home_screen.dart';
 import 'package:check_bike/widget/tab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 
 late Size ratio;
@@ -12,6 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await initializeDateFormatting();
   runApp(const MyApp());
 }
 
@@ -29,7 +31,11 @@ class MyApp extends StatelessWidget {
             ),
 
             debugShowCheckedModeBanner: false,
-            home: RootTab()
+      home: RootTab(),
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(boldText: false, textScaler: TextScaler.linear(1.0)),
+        child: child!,
+      ),
     );
   }
 }

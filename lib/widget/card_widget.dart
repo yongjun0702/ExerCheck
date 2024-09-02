@@ -55,14 +55,14 @@ class BuildCard extends StatelessWidget {
                   TextSpan(
                       text: value,
                       style: TextStyle(
-                          fontSize: ratio.height * 23,
+                          fontSize: ratio.height * 20,
                           fontWeight: FontWeight.bold,
                           color: CheckBikeColor.mainBlue)),
                   if (content != null)
                     TextSpan(
                         text: ' $content',
                         style: TextStyle(
-                            fontSize: ratio.height * 23,
+                            fontSize: ratio.height * 20,
                             fontWeight: FontWeight.bold,
                             color: CheckBikeColor.grey3)),
                 ],
