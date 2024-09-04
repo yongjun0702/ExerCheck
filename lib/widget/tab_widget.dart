@@ -5,6 +5,8 @@ import 'package:check_bike/screen/stats_screen.dart';
 import 'package:check_bike/screen/timer_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class RootTab extends StatefulWidget {
   const RootTab({super.key});
@@ -16,13 +18,38 @@ class RootTab extends StatefulWidget {
 class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
   late TabController controller;  /// 탭 전환을 제어
   int index = 0;  /// 현재 선택된 탭의 인덱스
+  final FlutterLocalNotificationsPlugin _local = FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
     super.initState();
+    _permissionWithNotification();
+    _initialization();
     controller = TabController(length: 2, vsync: this);  /// 세 개의 탭으로 구성된 컨트롤러 초기화
     controller.addListener(tabListner);  /// 탭 변경 시 리스너 호출
   }
+
+
+  void _permissionWithNotification() async {
+    if (await Permission.notification.isDenied &&
+        !await Permission.notification.isPermanentlyDenied) {
+      await [Permission.notification].request();
+    }
+  }
+
+  void _initialization() async {
+    AndroidInitializationSettings android =
+    const AndroidInitializationSettings("@mipmap/ic_launcher");
+    DarwinInitializationSettings ios = const DarwinInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+    );
+    InitializationSettings settings =
+    InitializationSettings(android: android, iOS: ios);
+    await _local.initialize(settings);
+  }
+
 
   @override
   void dispose() {

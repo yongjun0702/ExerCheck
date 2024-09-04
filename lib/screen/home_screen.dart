@@ -5,6 +5,7 @@ import 'package:check_bike/screen/calendar_screen.dart';
 import 'package:check_bike/screen/stats_screen.dart';
 import 'package:check_bike/screen/timer_screen.dart';
 import 'package:check_bike/widget/card_widget.dart';
+import 'package:check_bike/widget/weekly_exercise_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -71,8 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
         print('Error parsing date: $startTimeString');
       }
 
-      exerciseDates
-          .add(DateTime(startTime.year, startTime.month, startTime.day));
+      // 시간 부분을 0으로 초기화하여 비교
+      DateTime exerciseDate =
+          DateTime(startTime.year, startTime.month, startTime.day);
+      exerciseDates.add(exerciseDate);
 
       if (data['end_time'] == null) {
         isOngoing = true;
@@ -147,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "ExerCheck",
             style: TextStyle(
               color: CheckBikeColor.darkgrey,
-              fontSize: 25 * ratio.height,
+              fontSize: 23 * ratio.height,
               fontWeight: FontWeight.bold,
               fontStyle: FontStyle.italic,
             ),
@@ -217,6 +220,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         SizedBox(height: ratio.height * 45),
+                        Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  blurRadius: 8.0,
+                                  spreadRadius: 0.0,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: ExerciseWidget()),
+                        SizedBox(height: ratio.height * 15),
                         GestureDetector(
                           onTap: () {
                             _navigateToTimerPage();
@@ -266,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "내 운동 현황은?",
+                        "자세한 운동 현황은?",
                         style: TextStyle(
                           fontSize: ratio.height * 20,
                           fontWeight: FontWeight.bold,
@@ -338,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fontWeight: FontWeight.bold,
                                             color: CheckBikeColor.mainBlue)),
                                     TextSpan(
-                                        text: ' 달성했어요\n',
+                                        text: ' 달성했어요',
                                         style: TextStyle(
                                             fontSize: ratio.height * 20,
                                             fontWeight: FontWeight.bold,
@@ -348,21 +367,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               _isExerciseOngoing
                                   ? Text(
-                                      '현재 운동이 진행 중입니다!',
+                                      '\n현재 운동이 진행 중입니다!',
                                       style: TextStyle(
                                         fontSize: ratio.height * 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red,
                                       ),
                                     )
-                                  : Text(
-                                      '운동을 아직 시작하지 않았어요!',
-                                      style: TextStyle(
-                                        fontSize: ratio.height * 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green,
-                                      ),
-                                    ),
+                                  : Container()
                             ],
                           ),
                         ),

@@ -4,7 +4,9 @@ import 'package:check_bike/widget/custom_button_widget.dart';
 import 'package:check_bike/widget/custom_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:check_bike/config/color.dart';
 
@@ -28,6 +30,8 @@ class _TimerPageState extends State<TimerPage> {
   bool _goalSet = false;
   double _progress = 0.0;
   String? _exerciseId;
+
+  final FlutterLocalNotificationsPlugin _local = FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -96,6 +100,7 @@ class _TimerPageState extends State<TimerPage> {
           _progress = _elapsedTime.inSeconds / (_goalMinutes * 60);
           if (_progress >= 1.0) {
             _progress = 1.0;
+          _sendNotification();
           }
         });
         _saveElapsedTime();
@@ -160,6 +165,37 @@ class _TimerPageState extends State<TimerPage> {
     setState(() {
       _isLoading = false; // 로딩 끝
     });
+  }
+
+  Future<void> _sendNotification() async {
+    if (_isBackground()) {
+      NotificationDetails details = const NotificationDetails(
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
+        android: AndroidNotificationDetails(
+          "show_test",
+          "show_test",
+          importance: Importance.max,
+          priority: Priority.high,
+        ),
+      );
+      await _local.show(
+        0,
+        "오늘도 목표를 달성했어요!",
+        "목표를 달성해도 계속 진행할게요.",
+        details,
+        payload: "tyger://",
+      );
+    }
+  }
+
+
+
+  bool _isBackground() {
+    return WidgetsBinding.instance.lifecycleState == AppLifecycleState.paused;
   }
 
   String _formatDateTime(DateTime dateTime) {

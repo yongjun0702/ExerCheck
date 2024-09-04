@@ -1,12 +1,14 @@
-import 'package:check_bike/screen/home_screen.dart';
 import 'package:check_bike/widget/tab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'firebase_options.dart';
 
 late Size ratio;
 
+final FlutterLocalNotificationsPlugin _local = FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,8 +16,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDateFormatting();
+  tz.initializeTimeZones();
+
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

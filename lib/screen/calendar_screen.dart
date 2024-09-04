@@ -22,11 +22,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       .year, DateTime
       .now()
       .month - 2, 1);
-  DateTime _lastDay = DateTime.utc(DateTime
-      .now()
-      .year, DateTime
-      .now()
-      .month + 1, 0);
+  DateTime _lastDay = DateTime.now();
   String _selectedRange = '3개월';
 
   final Map<String, Duration> _dateRanges = {
@@ -85,11 +81,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CheckBikeColor.background,
-      appBar: AppBar(
-        title: Text("운동 캘린더", style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: CheckBikeColor.background,
-        scrolledUnderElevation: 0,
-      ),
       body: StreamBuilder<Map<DateTime, bool>>(
         stream: _exerciseDataStream(),
         builder: (context, snapshot) {
@@ -106,158 +97,41 @@ class _CalendarScreenState extends State<CalendarScreen> {
           }
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 28),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "캘린더 범위 선택",
-                  style: TextStyle(
-                      fontSize: ratio.height * 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                DropdownButton<String>(
-                  value: _selectedRange,
-                  items: _dateRanges.keys.map((String key) {
-                    return DropdownMenuItem<String>(
-                      value: key,
-                      child: Text(key),
-                    );
-                  }).toList(),
-                  onChanged: (newValue) {
-                    if (newValue != null) {
-                      _updateCalendarRange(newValue);
-                    }
-                  },
-                ),
-                SizedBox(height: ratio.height * 15),
-                Container(
-                  width: double.infinity,
-                  height: ratio.height * 400,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 8.0,
-                        spreadRadius: 0.0,
-                        offset: const Offset(0, 2),
-                      )
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: ratio.height * 110),
+                  Row(
+                    children: [
+                      Text(
+                        "캘린더 범위 선택",
+                        style: TextStyle(
+                            fontSize: ratio.height * 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: ratio.width * 15),
+                      DropdownButton<String>(
+                        value: _selectedRange,
+                        items: _dateRanges.keys.map((String key) {
+                          return DropdownMenuItem<String>(
+                            value: key,
+                            child: Text(key),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          if (newValue != null) {
+                            _updateCalendarRange(newValue);
+                          }
+                        },
+                      ),
                     ],
                   ),
-                  child: TableCalendar(
-                    locale: 'ko_KR',
-                    firstDay: _firstDay,
-                    lastDay: _lastDay,
-                    focusedDay: _focusedDay,
-                    rowHeight: ratio.height * 60,
-                    calendarStyle: CalendarStyle(
-                      cellMargin: EdgeInsets.symmetric(vertical: 18),
-                      outsideDaysVisible: false,
-                    ),
-                    calendarBuilders: CalendarBuilders(
-                      defaultBuilder: (context, day, focusedDay) {
-                        final isGoalAchieved = _exerciseData[
-                        DateTime(day.year, day.month, day.day)];
-                        return Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  '${day.day}',
-                                  style:
-                                  TextStyle(color: CheckBikeColor.darkgrey),
-                                ),
-                              ),
-                              Container(
-                                  child: Center(
-                                      child: isGoalAchieved != null
-                                          ? isGoalAchieved == true
-                                          ? Icon(Icons.check_circle,
-                                          size: 20, color: Colors.green)
-                                          : Icon(Icons.cancel,
-                                          size: 20, color: Colors.red)
-                                          : null)),
-                            ],
-                          ),
-                        );
-                      },
-                      todayBuilder: (context, day, focusedDay) {
-                        final isGoalAchieved = _exerciseData[
-                        DateTime(day.year, day.month, day.day)];
-                        return Container(
-                          margin: EdgeInsets.only(top: 10),
-                          decoration: BoxDecoration(
-                              border:
-                              Border.all(color: CheckBikeColor.mainBlue)),
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  '${day.day}',
-                                  style:
-                                  TextStyle(color: CheckBikeColor.darkgrey),
-                                ),
-                              ),
-                              Container(
-                                  child: Center(
-                                      child: isGoalAchieved != null
-                                          ? isGoalAchieved == true
-                                          ? Icon(Icons.check_circle,
-                                          size: 20, color: Colors.green)
-                                          : Icon(Icons.cancel,
-                                          size: 20, color: Colors.red)
-                                          : null)),
-                            ],
-                          ),
-                        );
-                      },
-                      selectedBuilder: (context, day, focusedDay) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${day.day}',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    headerStyle: HeaderStyle(
-                      titleTextFormatter: (date, locale) =>
-                          DateFormat('yyyy년 M월').format(date),
-                      formatButtonVisible: false,
-                      titleCentered: true,
-                    ),
-                    daysOfWeekStyle: DaysOfWeekStyle(
-                      dowTextFormatter: (date, locale) =>
-                      DateFormat.E(locale).format(date)[0],
-                      weekendStyle: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.bold),
-                      weekdayStyle: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SizedBox(height: ratio.height * 20),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StatsScreen(),
-                      ),
-                    );
-                  },
-                  child: Container(
+                  SizedBox(height: ratio.height * 15),
+                  Container(
                     width: double.infinity,
+                    height: ratio.height * 480,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.white,
@@ -267,30 +141,183 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           blurRadius: 8.0,
                           spreadRadius: 0.0,
                           offset: const Offset(0, 2),
-                        ),
+                        )
                       ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 20),
-                      child: Row(
-                        children: [
-                          Text(
-                            "기록 자세히 보기",
-                            style: TextStyle(
-                              fontSize: ratio.height * 20,
-                              fontWeight: FontWeight.bold,
-                              color: CheckBikeColor.mainBlue,
+                    child: TableCalendar(
+                      locale: 'ko_KR',
+                      firstDay: _firstDay,
+                      lastDay: _lastDay,
+                      focusedDay: _focusedDay,
+                      rowHeight: ratio.height * 60,
+                      calendarStyle: CalendarStyle(
+                        cellMargin: EdgeInsets.symmetric(vertical: 18),
+                        outsideDaysVisible: false,
+                      ),
+                      calendarBuilders: CalendarBuilders(
+                        defaultBuilder: (context, day, focusedDay) {
+                          final isGoalAchieved = _exerciseData[
+                          DateTime(day.year, day.month, day.day)];
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    '${day.day}',
+                                    style:
+                                    TextStyle(color: CheckBikeColor.grey3),
+                                  ),
+                                ),
+                                Container(
+                                    child: Center(
+                                        child: isGoalAchieved != null
+                                            ? isGoalAchieved == true
+                                            ? Icon(Icons.check_circle,
+                                            size: 20, color: Colors.green)
+                                            : Icon(Icons.cancel,
+                                            size: 20, color: Colors.red)
+                                            : null)),
+                              ],
                             ),
-                          ),
-                          Spacer(),
-                          Image.asset("assets/img/navigation.png"),
-                        ],
+                          );
+                        },
+                        todayBuilder: (context, day, focusedDay) {
+                          final isGoalAchieved = _exerciseData[
+                          DateTime(day.year, day.month, day.day)];
+                          return Container(
+                            margin: EdgeInsets.only(top: 10),
+                            decoration: BoxDecoration(
+                                border:
+                                Border.all(color: CheckBikeColor.mainBlue)),
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    '${day.day}',
+                                    style:
+                                    TextStyle(color: CheckBikeColor.grey3),
+                                  ),
+                                ),
+                                Container(
+                                    child: Center(
+                                        child: isGoalAchieved != null
+                                            ? isGoalAchieved == true
+                                            ? Icon(Icons.check_circle,
+                                            size: 20, color: Colors.green)
+                                            : Icon(Icons.cancel,
+                                            size: 20, color: Colors.red)
+                                            : null)),
+                              ],
+                            ),
+                          );
+                        },
+                        selectedBuilder: (context, day, focusedDay) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${day.day}',
+                                style: TextStyle(color: CheckBikeColor.grey3),
+                              ),
+                            ),
+                          );
+                        },
+                        disabledBuilder: (context, day, focusedDay) {
+                          final isGoalAchieved = _exerciseData[
+                          DateTime(day.year, day.month, day.day)];
+                          return Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    '${day.day}',
+                                    style:
+                                    TextStyle(color: CheckBikeColor.grey2),
+                                  ),
+                                ),
+                                Container(
+                                    child: Center(
+                                        child: isGoalAchieved != null
+                                            ? isGoalAchieved == true
+                                            ? Icon(Icons.check_circle,
+                                            size: 20, color: Colors.green)
+                                            : Icon(Icons.cancel,
+                                            size: 20, color: Colors.red)
+                                            : null)),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      headerStyle: HeaderStyle(
+                        titleTextFormatter: (date, locale) =>
+                            DateFormat('yyyy년 M월').format(date),
+                        formatButtonVisible: false,
+                        titleCentered: true,
+                      ),
+                      daysOfWeekStyle: DaysOfWeekStyle(
+                        dowTextFormatter: (date, locale) =>
+                        DateFormat.E(locale).format(date)[0],
+                        weekendStyle: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold),
+                        weekdayStyle: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: ratio.height * 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StatsScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            blurRadius: 8.0,
+                            spreadRadius: 0.0,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              "기록 자세히 보기",
+                              style: TextStyle(
+                                fontSize: ratio.height * 20,
+                                fontWeight: FontWeight.bold,
+                                color: CheckBikeColor.mainBlue,
+                              ),
+                            ),
+                            Spacer(),
+                            Image.asset("assets/img/navigation.png"),
+                          ],
+                        ),
+
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
