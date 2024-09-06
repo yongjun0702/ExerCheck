@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:check_bike/config/color.dart';
 
@@ -25,11 +24,12 @@ class _TimerPageState extends State<TimerPage> {
   Timer? _timer;
   Duration _elapsedTime = Duration.zero;
   bool _isRunning = false;
-  bool _isLoading = false; // 로딩 상태 변수
+  bool _isLoading = false;
   int _goalMinutes = 10;
   bool _goalSet = false;
   double _progress = 0.0;
   String? _exerciseId;
+  bool _notificationSent = false;
 
   final FlutterLocalNotificationsPlugin _local = FlutterLocalNotificationsPlugin();
 
@@ -78,8 +78,8 @@ class _TimerPageState extends State<TimerPage> {
     if (_exerciseId == null) {
       _exerciseId =
           (await FirebaseFirestore.instance.collection('exercises').add({
-        'start_time': _formatDateTime(_startTime!),
-      }))
+            'start_time': _formatDateTime(_startTime!),
+          }))
               .id;
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('saved_exercise_id', _exerciseId!);
@@ -100,7 +100,10 @@ class _TimerPageState extends State<TimerPage> {
           _progress = _elapsedTime.inSeconds / (_goalMinutes * 60);
           if (_progress >= 1.0) {
             _progress = 1.0;
-          _sendNotification();
+            if (!_notificationSent) {
+              _sendNotification();
+              _notificationSent = true;
+            }
           }
         });
         _saveElapsedTime();
@@ -168,35 +171,31 @@ class _TimerPageState extends State<TimerPage> {
   }
 
   Future<void> _sendNotification() async {
-    if (_isBackground()) {
-      NotificationDetails details = const NotificationDetails(
-        iOS: DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ),
-        android: AndroidNotificationDetails(
-          "show_test",
-          "show_test",
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      );
-      await _local.show(
-        0,
-        "오늘도 목표를 달성했어요!",
-        "목표를 달성해도 계속 진행할게요.",
-        details,
-        payload: "tyger://",
-      );
-    }
+    NotificationDetails details = const NotificationDetails(
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      ),
+      android: AndroidNotificationDetails(
+        "show_test",
+        "show_test",
+        importance: Importance.max,
+        priority: Priority.high,
+      ),
+    );
+    await _local.show(
+      0,
+      "오늘도 목표를 달성했어요!",
+      "목표를 달성해도 계속 진행할게요.",
+      details,
+      payload: "tyger://",
+    );
   }
 
-
-
-  bool _isBackground() {
-    return WidgetsBinding.instance.lifecycleState == AppLifecycleState.paused;
-  }
+  // bool _isBackground() {
+  //   return WidgetsBinding.instance.lifecycleState == AppLifecycleState.paused;
+  // }
 
   String _formatDateTime(DateTime dateTime) {
     return DateFormat('yyyy년 M월 d일 H시 m분').format(dateTime);
@@ -234,17 +233,17 @@ class _TimerPageState extends State<TimerPage> {
             SizedBox(height: ratio.height * 20),
             _isRunning
                 ? Text(
-                    "운동 기록이\n시작되었습니다!",
-                    style: TextStyle(
-                        fontSize: ratio.height * 30,
-                        fontWeight: FontWeight.bold),
-                  )
+              "운동 기록이\n시작되었습니다!",
+              style: TextStyle(
+                  fontSize: ratio.height * 30,
+                  fontWeight: FontWeight.bold),
+            )
                 : Text(
-                    "목표를 설정하고\n운동을 시작해보세요!",
-                    style: TextStyle(
-                        fontSize: ratio.height * 30,
-                        fontWeight: FontWeight.bold),
-                  ),
+              "목표를 설정하고\n운동을 시작해보세요!",
+              style: TextStyle(
+                  fontSize: ratio.height * 30,
+                  fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: ratio.height * 20),
             DropdownButton<int>(
               value: _goalSet ? _goalMinutes : null,
@@ -257,11 +256,11 @@ class _TimerPageState extends State<TimerPage> {
               onChanged: _isRunning
                   ? null
                   : (int? newValue) {
-                      setState(() {
-                        _goalMinutes = newValue!;
-                        _goalSet = true;
-                      });
-                    },
+                setState(() {
+                  _goalMinutes = newValue!;
+                  _goalSet = true;
+                });
+              },
               hint: Text("목표 설정"),
             ),
             SizedBox(height: ratio.height * 70),
@@ -311,8 +310,8 @@ class _TimerPageState extends State<TimerPage> {
                       text: _isRunning ? "운동 종료" : "운동 시작",
                       func: _goalSet
                           ? (_isRunning
-                              ? _stopExercise
-                              : _handleStartExercise) // 로딩과 운동 시작 처리
+                          ? _stopExercise
+                          : _handleStartExercise)
                           : null,
                       buttonCount: 1,
                     ),
@@ -326,3 +325,4 @@ class _TimerPageState extends State<TimerPage> {
     );
   }
 }
+

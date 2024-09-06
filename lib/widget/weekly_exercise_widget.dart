@@ -53,7 +53,7 @@ class ExerciseWidget extends StatelessWidget {
       stream: _exerciseDataStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: Container());
         }
 
         if (snapshot.hasError) {

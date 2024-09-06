@@ -41,48 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBvHI6hJceXh7E8O5GDGDAjxjtJqJURx-c',
-    appId: '1:984725875220:web:5eae17068de95945659501',
-    messagingSenderId: '984725875220',
-    projectId: 'checkbike-331c8',
-    authDomain: 'checkbike-331c8.firebaseapp.com',
-    storageBucket: 'checkbike-331c8.appspot.com',
-    measurementId: 'G-LMJ26Q6LMD',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    authDomain: '',
+    storageBucket: '',
+    measurementId: '',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBANAO7buRASbKC_cD9ZfNXQigD30G2Bpo',
-    appId: '1:984725875220:android:83ab06071aa6e11c659501',
-    messagingSenderId: '984725875220',
-    projectId: 'checkbike-331c8',
-    storageBucket: 'checkbike-331c8.appspot.com',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCeySa1qpLSAf-r66yU4xJD4iZfDJ1IYjI',
-    appId: '1:984725875220:ios:4d613ae4ba20fe37659501',
-    messagingSenderId: '984725875220',
-    projectId: 'checkbike-331c8',
-    storageBucket: 'checkbike-331c8.appspot.com',
-    iosBundleId: 'com.example.checkBike',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
+    iosBundleId: '',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCeySa1qpLSAf-r66yU4xJD4iZfDJ1IYjI',
-    appId: '1:984725875220:ios:4d613ae4ba20fe37659501',
-    messagingSenderId: '984725875220',
-    projectId: 'checkbike-331c8',
-    storageBucket: 'checkbike-331c8.appspot.com',
-    iosBundleId: 'com.example.checkBike',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
+    iosBundleId: '',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBvHI6hJceXh7E8O5GDGDAjxjtJqJURx-c',
-    appId: '1:984725875220:web:fa5dc79e0e2721d4659501',
-    messagingSenderId: '984725875220',
-    projectId: 'checkbike-331c8',
-    authDomain: 'checkbike-331c8.firebaseapp.com',
-    storageBucket: 'checkbike-331c8.appspot.com',
-    measurementId: 'G-GE8R06XMWJ',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    authDomain: '',
+    storageBucket: '',
+    measurementId: '',
   );
 }
