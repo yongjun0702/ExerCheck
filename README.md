@@ -4,6 +4,6 @@
 <img src="https://github.com/user-attachments/assets/e5b1e142-9b72-4bd9-a84d-73383f29211f" width="200" height="200"/>
 
 # 구동 화면
-![Group 2](https://github.com/user-attachments/assets/52e90132-3902-4fa2-88c0-1ab4516974c0)
+![Group 4](https://github.com/user-attachments/assets/0d045a37-75a4-459a-9eea-8a6efa6fc2bd)
 
 ![Group 3](https://github.com/user-attachments/assets/f273e600-624d-4c1a-9c60-7427280a5733)
