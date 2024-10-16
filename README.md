@@ -4,6 +4,8 @@
 <img src="https://github.com/user-attachments/assets/e5b1e142-9b72-4bd9-a84d-73383f29211f" width="200" height="200"/>
 
 # 구동 화면
-![Group 4](https://github.com/user-attachments/assets/0d045a37-75a4-459a-9eea-8a6efa6fc2bd)
-
-![Group 3](https://github.com/user-attachments/assets/f273e600-624d-4c1a-9c60-7427280a5733)
+![app_frame1](https://github.com/user-attachments/assets/ecc26693-a9d0-45b7-a2d5-2eb75704ab1e)
+![app_frame2](https://github.com/user-attachments/assets/99f1ce05-99e3-4663-bb16-6b401eaff966)
+![app_frame3](https://github.com/user-attachments/assets/3fa7bc89-33b7-4a81-b1bd-6167145f45ba)
+![app_frame4](https://github.com/user-attachments/assets/5326a20c-fa25-4107-8a89-8b0a23cd9d1b)
+![app_frame5](https://github.com/user-attachments/assets/cb51efaf-4dcd-4b36-88e5-860a5fa3c31a)
