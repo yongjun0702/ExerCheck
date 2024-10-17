@@ -1,7 +1,7 @@
 # ExerCheck
 운동 목표 설정 및 운동 기록용 타이머 어플리케이션
+<img src="https://github.com/user-attachments/assets/a076a725-6035-4444-8e8e-9eb3147fc43b" width="200" height="200"/>
 
-<img src="https://github.com/user-attachments/assets/e5b1e142-9b72-4bd9-a84d-73383f29211f" width="200" height="200"/>
 
 # 구동 화면
 <img src="https://github.com/user-attachments/assets/ecc26693-a9d0-45b7-a2d5-2eb75704ab1e" width="270" height="480"/>
