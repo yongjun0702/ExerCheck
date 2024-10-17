@@ -1,5 +1,6 @@
 # ExerCheck
 운동 목표 설정 및 운동 기록용 타이머 어플리케이션
+
 <img src="https://github.com/user-attachments/assets/aaa9479b-9058-4f49-9da9-20fbdd9941aa" width="200" height="200"/>
 
 # 구동 화면
